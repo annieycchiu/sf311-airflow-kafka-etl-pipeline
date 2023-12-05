@@ -8,3 +8,4 @@ fastapi/__pycache__/*
 
 # Streamlit
 streamlit/pages/.env
+streamlit/helpers/__pycache__/*
