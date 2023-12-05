@@ -1,0 +1,11 @@
+# Airflow
+airflow/dags/scripts/.env
+airflow/dags/__pycache__/*
+airflow/dags/scripts/__pycache__/*
+
+# FastAPI
+fastapi/__pycache__/*
+fastapi/models/random_forest_311_v2.joblib
+
+# Streamlit
+streamlit/pages/.env
