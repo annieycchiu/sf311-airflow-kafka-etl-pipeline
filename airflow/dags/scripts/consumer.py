@@ -13,7 +13,7 @@ from confluent_kafka.schema_registry import SchemaRegistryClient
 from confluent_kafka.schema_registry.avro import AvroDeserializer
 
 # local application/module imports
-import schemas
+from .schemas import request_stream_schema
 
 
 # load secrets to connect confluent kafka
@@ -83,7 +83,7 @@ def make_consumer():
     
     value_deserializer = AvroDeserializer( 
         schema_registry_client=schema_registry_client,
-        schema_str=schemas.request_stream_schema)
+        schema_str=request_stream_schema)
     
     return DeserializingConsumer({
         **get_kafka_config(),

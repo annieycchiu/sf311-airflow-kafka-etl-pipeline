@@ -13,8 +13,8 @@ from confluent_kafka.schema_registry import SchemaRegistryClient
 from confluent_kafka.schema_registry.avro import AvroSerializer
 
 # local application/module imports
-import schemas  
-from entities import RequestStreamModel  
+from .schemas import request_stream_schema
+from .entities import RequestStreamModel    
 
 # load secrets to connect to confluent kafka
 load_dotenv(verbose=True)
@@ -86,7 +86,7 @@ def make_producer():
     # set up value serializer using Avro
     value_serializer = AvroSerializer( 
         schema_registry_client=schema_registry_client,
-        schema_str=schemas.request_stream_schema,
+        schema_str=request_stream_schema,
         to_dict=lambda x, ctx: x.dict(by_alias=True))
     
     return SerializingProducer({
