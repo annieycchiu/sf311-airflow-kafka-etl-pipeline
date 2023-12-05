@@ -1,7 +1,9 @@
 # San Francisco 311 Requests - ETL Pipeline
 
-## Dataset & Tools/Packages
+## Project Summary
 
 ## Architecture Diagram
 
 ![Alt text](./assets/SF_311_Architecture.png)
+
+## Tools & Packages
