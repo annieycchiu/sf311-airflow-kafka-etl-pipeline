@@ -63,9 +63,13 @@ def main():
         # display prediction result
         if response.status_code == 200:
             result = response.json()
-            st.write(f"Your requst is expected to be resolved: {result['prediction']}")
+            st.write(
+                f"<h4>Your requst is expected to be resolved: {result['prediction']}</h4>", 
+                unsafe_allow_html=True)
         else:
-            st.write("Failed to get prediction. Please check your input.")
+            st.write(
+                f"<h4>Failed to get prediction. Please check your input.</h4>", 
+                unsafe_allow_html=True)
 
 if __name__ == '__main__':
     main()

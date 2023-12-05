@@ -1,7 +1,13 @@
 import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
+from PIL import Image
+import io
 
+
+def load_image(image_path):
+        image = Image.open(image_path)
+        return image
 
 def get_data_from_postgres(query, config):
     """
