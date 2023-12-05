@@ -1,42 +1,7 @@
 import requests
 import streamlit as st
+from helpers.constants import service_mapping, police_mapping
 
-# set up mapping table for the of service type of the input data 
-service_mapping = {
-    'Abandoned Vehicle': 0,
-    'Damaged Property': 1,
-    'Encampments': 2,
-    'General Request - MTA': 3,
-    'General Request - PUBLIC WORKS': 4,
-    'Graffiti': 5,
-    'Illegal Postings': 6,
-    'Litter Receptacles': 7,
-    'Muni Employee Feedback': 8,
-    'Muni Service Feedback': 9,
-    'Noise Report': 10,
-    'Others': 11,
-    'Parking Enforcement': 12,
-    'Rec and Park Requests': 13,
-    'Sewer Issues': 14,
-    'Sidewalk or Curb': 15,
-    'Sign Repair': 16,
-    'Street Defects': 17,
-    'Street and Sidewalk Cleaning': 18,
-    'Streetlights': 19,
-    'Tree Maintenance': 20}
-
-# set up mapping table for the of police district of the input data 
-police_mapping = {
-    'Bayview': 21,
-    'Central': 22,
-    'Ingleside': 23,
-    'Mission': 24,
-    'Northern': 25,
-    'Park': 26,
-    'Richmond': 27,
-    'Southern': 28,
-    'Taraval': 29,
-    'Tenderloin': 30}
 
 # generate input data for FastAPI endpoint
 def generate_input_data(
