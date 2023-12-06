@@ -19,3 +19,18 @@ main_query = """
     GROUP BY 1, 2, 3, 4, 5
     ORDER BY 1, 2, 3, 4, 5;
     """
+
+new_metric_query = """
+    SELECT date(requested_datetime), count(request_id) AS count
+    FROM historical_311_request
+    GROUP BY 1
+    ORDER BY 1 DESC;
+    """
+
+resolved_metric_query = """
+    SELECT date(updated_datetime), count(request_id) AS count
+    FROM historical_311_request
+    WHERE status_description = 'Closed'
+    GROUP BY 1
+    ORDER BY 1 DESC;
+    """

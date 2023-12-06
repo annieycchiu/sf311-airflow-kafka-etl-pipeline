@@ -1,9 +1,10 @@
-import pandas as pd
+import numpy as np
 import plotly.graph_objects as go
 
 from .utils import customize_array_sort
 
-import numpy as np
+
+colors = ['#73afe1', '#667e6b', '#eee1d0', '#789b7c', '#a6def8']
 
 def customize_array_sort(array, order, special_val_pos, special_val='Others'):
     if special_val in array:
@@ -30,8 +31,25 @@ def customize_array_sort(array, order, special_val_pos, special_val='Others'):
             sorted_array = np.sort(array[array != special_val])[::-1]
 
         return sorted_array
+    
+def generate_color_list(colors, num):
+    if num <= 0:
+        return []
 
-def plot_horizontal_stacked_bar_chart(df):
+    input_colors_len = len(colors)
+    result_colors = []
+    index = 0
+
+    while len(result_colors) < num:
+        pos = index % input_colors_len
+        result_colors.append(colors[pos])
+        index += 1
+
+    return result_colors
+
+def plot_horizontal_stacked_bar_chart(df, colors=colors):
+    df = df.groupby(['gp_police_district', 'gp_service_type'])['count'].sum().reset_index()
+    
     police_dists = df['gp_police_district'].unique()
     ordered_police_dists = customize_array_sort(police_dists, order='desc', special_val_pos='beginning')
 
@@ -43,7 +61,6 @@ def plot_horizontal_stacked_bar_chart(df):
         val = df[df['gp_service_type'] == ordered_service_types[i]]['count'].to_list()
         vals.append(val)
     
-    colors = ['#73afe1', '#a6def8', '#eee1d0', '#789b7c', '#667e6b']
     data = []
     for i in range(len(ordered_service_types)):
         color = colors[i % len(colors)]
@@ -56,12 +73,67 @@ def plot_horizontal_stacked_bar_chart(df):
             marker=dict(color=color))
         data.append(trace)
 
+    title_txt = 'Request Type Count per Police District'
+
     layout = go.Layout(
+        title=title_txt,
         barmode='stack',
         xaxis=dict(title='Request Count'),
-        yaxis=dict(title='Police Districts')
+        yaxis=dict(title='Police Districts'),
     )
 
     fig = go.Figure(data=data, layout=layout)
+
+    return fig
+
+def plot_multi_line_chart(df, category='gp_police_district', colors=colors):
+    x_data = list(df['date'].unique())
+    categories = df[category].unique()
+    categories = customize_array_sort(categories, order='asc', special_val_pos='end')
+
+    y_datas = []
+    for i in range(len(categories)):
+        y_data = df[df[category] == categories[i]]['count'].to_list()
+        y_datas.append(y_data)
+
+    data = []
+    for i in range(len(categories)):
+        color = colors[i % len(colors)]
+        # Creating traces for each line
+        trace = go.Scatter(x=x_data, y=y_datas[i], mode='lines', name=categories[i],line=dict(color=color))
+        data.append(trace)
+
+    # Layout configuration
+    title_txt = ' '.join(word.capitalize() for word in category.split('_')[1:])
+
+    layout = go.Layout(
+        title=f'{title_txt} by Date',
+        xaxis=dict(title='Date'), yaxis=dict(title='Counts'), 
+        width=1000, height=500)
+
+    # Creating the figure with data and layout
+    fig = go.Figure(data=data, layout=layout)
+
+    # Update layout to set width and height
+    fig.update_layout(width=1000, height=500)
+
+    return fig
+
+def plot_pie_chart(df, category='gp_service_type', colors=colors):
+    labels = list(df[category].unique())
+    values = list(df.groupby(category)['count'].sum())
+    colors = generate_color_list(colors, len(labels))
+
+    # Creating the pie chart trace
+    trace = go.Pie(labels=labels, values=values, marker=dict(colors=colors))
+
+    # Creating the layout
+    title_txt = ' '.join(word.capitalize() for word in category.split('_')[1:])
+
+    layout = go.Layout(
+        title=f'{title_txt} Percentage')
+
+    # Creating the figure with data and layout
+    fig = go.Figure(data=[trace], layout=layout)
 
     return fig
