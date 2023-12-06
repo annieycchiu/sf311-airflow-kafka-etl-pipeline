@@ -7,9 +7,9 @@
   San Franciscofaces the challenge of efficiently managing and addressing the diverse array of incidents reported through its 311 system. With a continuous influx of cases, there is a pressing need to streamline the allocation of resourcesand enhance response times to improve service quality.
 * Objectives
 
-  * Streaming Data ETL Pipeline:Leveraging skills from Data Streaming course to build a real-time streaming data pipeline.
-  * Data Visualization: Mapping 311 cases across the city to identify hotspots and patterns.
-  * Closure Time Prediction:Using machine learning to predict case closure times, considering factors like case type and location.**
+  * **Streaming Data ETL Pipeline**:Leveraging skills from Data Streaming course to build a real-time streaming data pipeline.
+  * **Data Visualization**: Mapping 311 cases across the city to identify hotspots and patterns.
+  * **Closure Time Prediction**:Using machine learning to predict case closure times, considering factors like case type and location.**
 
 ## Architecture Diagram
 
@@ -27,9 +27,9 @@
 
 ## Tools & Packages
 
-* Data Orchestration:apache-airflow, sodapy
-* Data Streaming:avro,confluent_kafka, fastavro
-* Database: pgAdmin, psycopg2, sqlalchemy
-* Modeling & Serving: fastapi[all], mlflow, scikit-learn
-* Data Visualization: geopandas, folium, numpy, pandas, plotly, streamlit
-* Version Control: git, Github
+* **Data Orchestration**:apache-airflow, sodapy
+* **Data Streaming**:avro,confluent_kafka, fastavro
+* **Database**: pgAdmin, psycopg2, sqlalchemy
+* **Modeling & Serving**: fastapi[all], mlflow, scikit-learn
+* **Data Visualization**: geopandas, folium, numpy, pandas, plotly, streamlit
+* **Version Control**: git, Github
