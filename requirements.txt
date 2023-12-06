@@ -13,3 +13,4 @@ plotly
 sqlalchemy
 scikit-learn
 Pillow
+folium
