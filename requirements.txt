@@ -14,3 +14,4 @@ sqlalchemy
 scikit-learn
 Pillow
 folium
+streamlit-folium

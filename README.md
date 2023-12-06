@@ -9,7 +9,7 @@
 
   * **Streaming Data ETL Pipeline**:Leveraging skills from Data Streaming course to build a real-time streaming data pipeline.
   * **Data Visualization**: Mapping 311 cases across the city to identify hotspots and patterns.
-  * **Closure Time Prediction**:Using machine learning to predict case closure times, considering factors like case type and location.**
+  * **Request Resolved Time Prediction**:Using machine learning to predict case closure times, considering factors like case type and location.**
 
 ## Architecture Diagram
 

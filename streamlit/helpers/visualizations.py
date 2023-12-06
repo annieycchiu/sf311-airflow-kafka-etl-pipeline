@@ -1,5 +1,6 @@
 import numpy as np
 import plotly.graph_objects as go
+import folium
 
 from .utils import customize_array_sort
 
@@ -107,7 +108,7 @@ def plot_multi_line_chart(df, category='gp_police_district', colors=colors):
     title_txt = ' '.join(word.capitalize() for word in category.split('_')[1:])
 
     layout = go.Layout(
-        title=f'{title_txt} by Date',
+        title=f'Request Counts by {title_txt} per Date',
         xaxis=dict(title='Date'), yaxis=dict(title='Counts'), 
         width=1000, height=500)
 
@@ -137,3 +138,31 @@ def plot_pie_chart(df, category='gp_service_type', colors=colors):
     fig = go.Figure(data=[trace], layout=layout)
 
     return fig
+
+def plot_map(df):
+    df = df[df['gp_police_district'] != 'Others']\
+        .groupby(['gp_police_district', 'latitude', 'longitude'])['count'].sum().reset_index()
+    
+    sf_coordinate = [37.76,  -122.44]
+
+    # create empty map zoomed in on San Francisco
+    map = folium.Map(
+        location=sf_coordinate, 
+        zoom_start=12, 
+        scrollWheelZoom=False, 
+        tiles='cartodb positron')
+
+    for i in range(df.shape[0]):
+        dist = df.iloc[i]['gp_police_district'].capitalize()
+        count = df.iloc[i]['count']
+        lat = df.iloc[i]['latitude']
+        lon = df.iloc[i]['longitude']
+        location = [lat, lon]
+
+        folium.Marker(
+            location=location,
+            popup=f"{dist}\ncounts: {count:,}",
+            icon=None,
+        ).add_to(map)
+
+    return map 

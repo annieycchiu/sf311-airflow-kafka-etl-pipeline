@@ -1,13 +1,14 @@
 import os
 from dotenv import load_dotenv
 
-import streamlit as st
 from datetime import date, timedelta
-import folium
+import streamlit as st
+from streamlit_folium import st_folium
+
 
 from helpers.utils import get_data_from_postgres
 from helpers.data_processing import prepare_user_filtered_data
-from helpers.visualizations import plot_horizontal_stacked_bar_chart, plot_multi_line_chart, plot_pie_chart
+from helpers.visualizations import plot_horizontal_stacked_bar_chart, plot_multi_line_chart, plot_pie_chart, plot_map
 from helpers.queries import raw_data_query, main_query, new_metric_query, resolved_metric_query
 from helpers.constants import police_district_list, service_types_list
 
@@ -37,8 +38,13 @@ def main():
 
     st.write('')
     st.write('')
+    # Section 1: Latest Metrics
+
     st.write("<h4>🔍 Latest Metrics</h4>", unsafe_allow_html=True)
+
     st.write('')
+    # Section 1-1: Six Metrics 
+
     col1, col2 = st.columns(2)
     with col1:
         st.write("<h5>New Request Counts</h5>", unsafe_allow_html=True)
@@ -63,17 +69,17 @@ def main():
             metric3 = sum(list(new_metric_data.iloc[0:30]['count']))
             st.metric('Past Week', f'{metric3:,}')
         with col4:
-            metric4 = sum(list(new_metric_data.iloc[0:1]['count']))
+            metric4 = sum(list(resolved_data.iloc[0:1]['count']))
             st.metric('Past Week', f'{metric4:,}')
         with col5:
-            metric5 = sum(list(new_metric_data.iloc[0:7]['count']))
+            metric5 = sum(list(resolved_data.iloc[0:7]['count']))
             st.metric('Past Week', f'{metric5:,}')
         with col6:
-            metric6 = sum(list(new_metric_data.iloc[0:30]['count']))
+            metric6 = sum(list(resolved_data.iloc[0:30]['count']))
             st.metric('Past Week', f'{metric6:,}')
 
     st.write('')
-    # Chart 1: Latest request table
+    # Section 1-2: Latest Raw Data 
 
     # retrieve data from PostgreSQL
     raw_data = get_data_from_postgres(raw_data_query, config)
@@ -85,7 +91,12 @@ def main():
 
     st.write('')
     st.write('')
+    # Section 2: Self Defined Dashboard
+
     st.write("<h4>🔍 Self Defined Dashboard</h4>", unsafe_allow_html=True)
+
+    # Section 2-1: User Inputs
+ 
     # define columns for user inputs
     col1, col2, col3 = st.columns(3)
     
@@ -99,7 +110,7 @@ def main():
     # select police districts
     with col2:
         chosen_police_districts = st.multiselect('Police Districts', options=police_district_list, 
-                                                 default=['Tenderloin', 'Mission', 'Northern'])
+                                                 default=['Tenderloin', 'Mission', 'Northern', 'Ingleside'])
         chosen_police_districts = set(chosen_police_districts)
     
     # select service types
@@ -108,32 +119,37 @@ def main():
                                               default=['Encampments', 'Street and Sidewalk Cleaning'])
         chosen_service_types = set(chosen_service_types)
 
+    # Section 2-2: Display User Selected Data
+
     # retrieve data from PostgreSQL
     main_data = get_data_from_postgres(main_query, config)
     # filter data by user inputs
     user_chosen_df = prepare_user_filtered_data(main_data, chosen_dates, chosen_police_districts, chosen_service_types)
 
-    # Chart 2: Map
-    
+    st.write('')
+    st.write('')
+    # Plot 1: Map
+    # Set up Streamlit layout to center the map
+    _, col2, _ = st.columns([1, 5, 1])
 
-    # Chart 3: Horizontal bar plot, pie plot, and multi-line plot filtered by user inputs
-
-    # plot horizonal bar plot
-    horizontal_bar_fig = plot_horizontal_stacked_bar_chart(user_chosen_df)
-
-    # plot horizonal bar plot
-    pie_fig = plot_pie_chart(user_chosen_df, category='gp_service_type')
-
-    # plot multi-line plot
-    multi_line_fig = plot_multi_line_chart(user_chosen_df, category='gp_police_district')
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.plotly_chart(horizontal_bar_fig)
     with col2:
+        st.write('**Total Request Counts per Police District**')
+        map = plot_map(user_chosen_df)
+        st_folium(map, width=600, height=400) 
+
+    # Plot 2: Horizonal Bar Plot
+    col1, col2 = st.columns(2)
+    with col1:
+        horizontal_bar_fig = plot_horizontal_stacked_bar_chart(user_chosen_df)
+        st.plotly_chart(horizontal_bar_fig)
+
+    # Plot 3: Pie Plot
+    with col2:
+        pie_fig = plot_pie_chart(user_chosen_df, category='gp_service_type')
         st.plotly_chart(pie_fig)
 
+    # Plot 4: Multi Line Plot
+    multi_line_fig = plot_multi_line_chart(user_chosen_df, category='gp_police_district')
     st.plotly_chart(multi_line_fig)
 
 
