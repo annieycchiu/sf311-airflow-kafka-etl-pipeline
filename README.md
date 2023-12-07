@@ -37,10 +37,17 @@
 
 ### Airflow
 
+![Alt text](./assets/images/airflow_slide_1.png)
+![Alt text](./assets/images/airflow_slide_2.png)
+
 ### Kafka
+
+![Alt text](./assets/images/kafka_slide.png)
 
 ### PostgreSQL DB
 
-### FastAPI
+![Alt text](./assets/images/postsql_db_slide.png)
 
 ### Streamlit/ Plotly/ Folium
+
+![Alt text](./assets/images/streamlit_slide.png)
