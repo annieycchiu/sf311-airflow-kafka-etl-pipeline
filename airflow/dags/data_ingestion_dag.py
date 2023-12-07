@@ -1,10 +1,13 @@
+# Standard library imports
 import os
 from datetime import datetime, timedelta
 
+# Third-party imports
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.operators.bash import BashOperator
 
+# Local application/library specific imports
 from scripts.helper_functions import fetch_yesterday_data, df_to_csv, extract_cols
 from scripts.producer import produce_csv_to_kafka
 from operator_config import (

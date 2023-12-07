@@ -97,7 +97,11 @@ def make_producer():
 
 
 def produce_csv_to_kafka(csv_path):
-    """Produce messages from csv file to Kafka topic."""
+    """
+    Produce messages from csv file to Kafka topic.
+    Args:
+      - csv_path (str): Directory to save the CSV file for producing.
+    """
     # set up connection to Kafka topic
     config = get_kafka_config()
     admin_client = AdminClient(config)

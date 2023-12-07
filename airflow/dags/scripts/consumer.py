@@ -45,7 +45,9 @@ def get_postgres_config():
     }
 
 def upsert_query():
-    """Upsert query for PostgreSQL database"""
+    """
+    Upsert query for PostgreSQL database.
+    """
     return f'''
         INSERT INTO kafka_311_request (
             request_id, requested_datetime, updated_datetime, 
@@ -70,7 +72,6 @@ def upsert_query():
         longitude = EXCLUDED.longitude, 
         source = EXCLUDED.source
         '''
-
 
 def make_consumer():
     """
@@ -104,6 +105,9 @@ def on_assign(consumer, partitions):
 def consume_messages_to_postgres(thresh):
     """
     Consume messgaes from Kafka topic and upsert into PostgreSQL database.
+
+    Args:
+      - thresh (int): threshold to stop the consumer.
     """
     # subscribe to Kafka topic
     topic_name = os.getenv('TOPIC_NAME')
@@ -148,14 +152,19 @@ def consume_messages_to_postgres(thresh):
                     # upsert data into database
                     cursor.execute(upsert_query, data)
                     print(f'Record with id {val["request_id"]} upserted into PostgreSQL')
+
+                # postgresql database data upsert error handing
                 except Error as e:
                     conn.rollback()
                     print(f'Error upserting record: {e}')
                 finally:
                     conn.commit()
 
+    # kafka error handing
     except KafkaException as kafka_exception:
         print(f'Kafka Exception: {kafka_exception}')
+
+    # postgresql database connection error handing
     except psycopg2.Error as psycopg_error:
         print(f'PostgreSQL Error: {psycopg_error}')
     finally:

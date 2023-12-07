@@ -1,9 +1,12 @@
+# Standard library imports
 import os
 from datetime import datetime, timedelta
 
+# Third-party imports
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 
+# Local application/library specific imports
 from scripts.consumer import consume_messages_to_postgres
 from operator_config import thresh
 
