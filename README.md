@@ -32,5 +32,15 @@
 * **Data Streaming**:avro,confluent_kafka, fastavro
 * **Database**: pgAdmin, psycopg2, sqlalchemy
 * **Modeling & Serving**: fastapi[all], mlflow, scikit-learn
-* **Data Visualization**: geopandas, folium, numpy, pandas, plotly, streamlit
+* **Data Visualization**: folium, numpy, pandas, plotly, streamlit
 * **Version Control**: git, Github
+
+### Airflow
+
+### Kafka
+
+### PostgreSQL DB
+
+### FastAPI
+
+### Streamlit/ Plotly/ Folium
