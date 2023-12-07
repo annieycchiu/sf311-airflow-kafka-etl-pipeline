@@ -4,16 +4,17 @@
 
 * Summary
 
-  San Franciscofaces the challenge of efficiently managing and addressing the diverse array of incidents reported through its 311 system. With a continuous influx of cases, there is a pressing need to streamline the allocation of resourcesand enhance response times to improve service quality.
+  San Francisco faces the challenge of efficiently managing and addressing the diverse array of incidents reported through its 311 system. With a continuous influx of cases, there is a pressing need to streamline the allocation of resources and enhance response times to improve public service quality.
 * Objectives
 
-  * **Streaming Data ETL Pipeline**:Leveraging skills from Data Streaming course to build a real-time streaming data pipeline.
-  * **Data Visualization**: Mapping 311 cases across the city to identify hotspots and patterns.
-  * **Request Resolved Time Prediction**:Using machine learning to predict case closure times, considering factors like case type and location.**
+  * **Streaming Data ETL Pipeline**: Leveraging data streaming and orchestration techniques to construct a
+    real-time data pipeline.
+  * **Data Visualization**: Mapping 311 cases across the city to identify hotspots and patterns and allowing for interactive user inputs.
+  * **Request Resolved Time Prediction**: ?everage machine learning model to predict case closure times, factoring in request types and locations.
 
 ## Architecture Diagram
 
-![Alt text](./assets/sf_311_architecture.png)
+![Alt text](./assets/images/sf_311_architecture.png)
 
 ## Dataset
 
