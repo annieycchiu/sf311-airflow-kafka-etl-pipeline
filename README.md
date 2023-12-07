@@ -52,8 +52,3 @@
 ### Streamlit/ Plotly/ Folium
 
 ![Alt text](./assets/images/streamlit.png)
-
-<video width="320" height="240" controls>
-  <source src="./assets/videos/streamlit_dashboard.mov" type="video/quicktime">
-  Your browser does not support the video tag.
-</video>
