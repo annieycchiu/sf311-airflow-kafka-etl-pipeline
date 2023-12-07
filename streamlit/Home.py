@@ -1,5 +1,7 @@
+# Third-party imports
 import streamlit as st
 
+# Local application/library specific imports
 from helpers.utils import load_image
 
 # Main App
@@ -22,4 +24,4 @@ def main():
 if __name__ == '__main__':
     main()
 
-# python -m streamlit run /Home.py 
+# python -m streamlit run Home.py 

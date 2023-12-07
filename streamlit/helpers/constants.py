@@ -1,9 +1,9 @@
-# set up available police districts for the drop down list
+# set up available police districts for the dahsboard drop down list
 police_district_list = [
     'All', 'Bayview', 'Central', 'Ingleside', 'Mission', 'Northern', 
     'Park', 'Richmond', 'Southern', 'Taraval', 'Tenderloin']
 
-# set up available service types for the drop down list
+# set up available service types for the dashboard drop down list
 service_types_list = [
     'All', 'Abandoned Vehicle', 'Damaged Property', 'Encampments', 'General Request - MTA',
     'General Request - PUBLIC WORKS', 'Graffiti', 'Illegal Postings', 'Litter Receptacles',
@@ -11,7 +11,7 @@ service_types_list = [
     'Rec and Park Requests', 'Sewer Issues', 'Sidewalk or Curb', 'Sign Repair',
     'Street Defects', 'Street and Sidewalk Cleaning', 'Streetlights', 'Tree Maintenance']
 
-# set up mapping table for the of service type of the input data 
+# set up mapping table of service types for FastAPI input data format
 service_mapping = {
     'Abandoned Vehicle': 0,
     'Damaged Property': 1,
@@ -35,7 +35,7 @@ service_mapping = {
     'Streetlights': 19,
     'Tree Maintenance': 20}
 
-# set up mapping table for the of police district of the input data 
+# set up mapping table of police districts for FastAPI input data format
 police_mapping = {
     'Bayview': 21,
     'Central': 22,

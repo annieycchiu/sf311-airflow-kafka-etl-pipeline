@@ -1,16 +1,22 @@
+# Standard library imports
 import os
-from dotenv import load_dotenv
-
 from datetime import date, timedelta
+
+# Third-party imports
+from dotenv import load_dotenv
 import streamlit as st
 from streamlit_folium import st_folium
 
-
+# Local application/library specific imports
 from helpers.utils import get_data_from_postgres
 from helpers.data_processing import prepare_user_filtered_data
-from helpers.visualizations import plot_horizontal_stacked_bar_chart, plot_multi_line_chart, plot_pie_chart, plot_map
 from helpers.queries import raw_data_query, main_query, new_metric_query, resolved_metric_query
 from helpers.constants import police_district_list, service_types_list
+from helpers.visualizations import (
+    plot_horizontal_stacked_bar_chart, 
+    plot_multi_line_chart, 
+    plot_pie_chart, 
+    plot_map)
 
 
 def get_postgres_config():

@@ -1,17 +1,33 @@
+# Third-party imports
 import numpy as np
 import pandas as pd
-from sqlalchemy import create_engine
 from PIL import Image
-import io
+from sqlalchemy import create_engine
 
 
 def load_image(image_path):
-        image = Image.open(image_path)
-        return image
+    """
+    Load an image from the specified file path.
+
+    Args:
+      - image_path (str): Path to the image file.
+
+    Returns:
+      - PIL.Image: Loaded image from the specified file path.
+    """
+    image = Image.open(image_path)
+    return image
 
 def get_data_from_postgres(query, config):
     """
     Retrieve data from PostgreSQL database using SQLAlchemy.
+    
+    Args:
+      - query (str): SQL query to retrieve data from the database.
+      - config (dict): Dictionary containing PostgreSQL connection details (user, password, host, port, database).
+
+    Returns:
+      - pandas.DataFrame: DataFrame containing the retrieved data.
     """
     # set database URL
     db_uri = f"postgresql://{config['user']}:{config['password']}@{config['host']}:{config['port']}/{config['database']}"
@@ -26,8 +42,16 @@ def get_data_from_postgres(query, config):
 
 def customize_array_sort(array, order, special_val_pos, special_val='Others'):
     """
-    A customized sort function that can perform either ascending or descending sort and 
-    insert special value in the beginning of the array or append it at the end.
+    Customize sorting of an array by considering a special value.
+
+    Args:
+      - array (numpy.ndarray or list): Input array to be sorted.
+      - order (str): Sorting order ('asc' for ascending, 'desc' for descending).
+      - special_val_pos (str): Position of the special value ('beginning' or 'end').
+      - special_val (str): Special value to be considered (default: 'Others').
+
+    Returns:
+      - numpy.ndarray or list: Sorted array considering the special value based on the specified order and position.
     """
     if special_val in array:
         if order == 'asc':

@@ -1,39 +1,28 @@
+# Third-party imports
 import numpy as np
-import plotly.graph_objects as go
 import folium
+import plotly.graph_objects as go
 
+# Local application/library specific imports
 from .utils import customize_array_sort
 
-
+# default colors for bar, line, pie plots
 colors = ['#73afe1', '#667e6b', '#eee1d0', '#789b7c', '#a6def8']
 
-def customize_array_sort(array, order, special_val_pos, special_val='Others'):
-    if special_val in array:
-        if order == 'asc':
-            # Sort the array in ascending order (excluding the special value)
-            sorted_array = np.sort(array[array != special_val])
-        elif order == 'desc':
-            # Sort the array in descending order (excluding the special value)
-            sorted_array = np.sort(array[array != special_val])[::-1]
-        
-        if special_val_pos == 'beginning':
-            # Combine special value at the beginning
-            final_array = np.concatenate(([special_val], sorted_array))
-        elif special_val_pos == 'end':
-            # Combine special value at the beginning
-            final_array = np.concatenate((sorted_array, [special_val]))
-
-        return final_array
-    
-    elif special_val not in array:
-        if order == 'asc':
-            sorted_array = np.sort(array[array != special_val])
-        elif order == 'desc':
-            sorted_array = np.sort(array[array != special_val])[::-1]
-
-        return sorted_array
     
 def generate_color_list(colors, num):
+    """
+    Generate a list of colors based on the input list of colors. 
+    If the length of the input color list is smaller than the input num, 
+    it will loop from the beginning until the length of the colors matches the num.
+
+    Args:
+      - colors (list): List of color codes.
+      - num (int): Number of colors to generate.
+
+    Returns:
+      - list: List containing generated colors based on the input list.
+    """
     if num <= 0:
         return []
 
@@ -49,6 +38,16 @@ def generate_color_list(colors, num):
     return result_colors
 
 def plot_horizontal_stacked_bar_chart(df, colors=colors):
+    """
+    Plot a horizontal stacked bar chart representing request counts per police district and per service type.
+
+    Args:
+      - df (pandas.DataFrame): DataFrame containing information about request cases.
+      - colors (list): List of color codes for the lines in the chart (default: 'colors'.)
+
+    Returns:
+      - go.Figure: A plotly Figure object representing request counts per police district and per service type.
+    """
     df = df.groupby(['gp_police_district', 'gp_service_type'])['count'].sum().reset_index()
     
     police_dists = df['gp_police_district'].unique()
@@ -88,6 +87,18 @@ def plot_horizontal_stacked_bar_chart(df, colors=colors):
     return fig
 
 def plot_multi_line_chart(df, category='gp_police_district', colors=colors):
+    """
+    Plot a multi-line chart representing request counts by a specified category per date.
+
+    Args:
+      - df (pandas.DataFrame): DataFrame containing information about request cases.
+      - category (str): Category by which the data will be grouped (default: 'gp_police_district'.)
+                        It can be either 'gp_police_district' or 'gp_service_type'.
+      - colors (list): List of color codes for the lines in the chart (default: 'colors'.)
+
+    Returns:
+      - go.Figure: A plotly Figure object representing request counts by the specified category per date.
+    """
     x_data = list(df['date'].unique())
     categories = df[category].unique()
     categories = customize_array_sort(categories, order='asc', special_val_pos='end')
@@ -121,6 +132,18 @@ def plot_multi_line_chart(df, category='gp_police_district', colors=colors):
     return fig
 
 def plot_pie_chart(df, category='gp_service_type', colors=colors):
+    """
+    Plot a pie chart to represent the percentage of service types or police districts.
+
+    Args: 
+      - df (pandas.DataFrame): DataFrame containing data to be plotted.
+      - category (str): The category for which the pie chart is plotted.
+                        It can be either 'gp_service_type' or 'gp_police_district' (default: 'gp_service_type'.)
+      - colors (list): List of color codes used for the pie chart. Defaults to predefined colors (default: 'colors'.)
+    
+    Returns: 
+      - go.Figure: A plotly Figure object representing the pie chart.
+    """
     labels = list(df[category].unique())
     values = list(df.groupby(category)['count'].sum())
     colors = generate_color_list(colors, len(labels))
@@ -140,6 +163,15 @@ def plot_pie_chart(df, category='gp_service_type', colors=colors):
     return fig
 
 def plot_map(df):
+    """
+    Plot a San Francisco map to visualize hotspots of the request cases.
+    
+    Args:
+      - df (pandas.DataFrame): DataFrame containing information about request cases.
+
+    Returns:
+      - folium.Map: A folium Map object visualizing hotspots of the request cases in San Francisco.
+    """
     df = df[df['gp_police_district'] != 'Others']\
         .groupby(['gp_police_district', 'latitude', 'longitude'])['count'].sum().reset_index()
     
@@ -166,3 +198,4 @@ def plot_map(df):
         ).add_to(map)
 
     return map 
+

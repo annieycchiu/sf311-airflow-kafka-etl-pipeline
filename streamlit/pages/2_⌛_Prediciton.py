@@ -1,25 +1,11 @@
+# Third-party imports
 import requests
 import streamlit as st
+
+# Local application/library specific imports
 from helpers.constants import service_mapping, police_mapping
+from helpers.data_processing import generate_fastapi_input_data
 
-
-# generate input data for FastAPI endpoint
-def generate_input_data(
-        service_type, 
-        police_district, 
-        service_mapping=service_mapping, 
-        police_mapping=police_mapping):
-    
-    pos1 = service_mapping[service_type]
-    pos2 = police_mapping[police_district]
-
-    # the format of the input data is a list of 31 values
-    # only the selected service type and police district will display True, the other will display False
-    input_data = [False] * 31
-    input_data[pos1] = True
-    input_data[pos2] = True
-
-    return input_data
 
 # Main App
 def main():
@@ -55,7 +41,7 @@ def main():
     st.write('')
     st.write('')
     if service_type and police_district:
-        user_input = generate_input_data(service_type, police_district)
+        user_input = generate_fastapi_input_data(service_type, police_district)
 
         # make a POST request to the FastAPI endpoint for prediction
         response = requests.post("http://127.0.0.1:8000/predict", json={"data": user_input})
