@@ -37,17 +37,17 @@
 
 ### Airflow
 
-![Alt text](./assets/images/airflow_slide_1.png)
-![Alt text](./assets/images/airflow_slide_2.png)
+![Alt text](./assets/images/airflow_1.png)
+![Alt text](./assets/images/airflow_2.png)
 
 ### Kafka
 
-![Alt text](./assets/images/kafka_slide.png)
+![Alt text](./assets/images/kafka.png)
 
 ### PostgreSQL DB
 
-![Alt text](./assets/images/postsql_db_slide.png)
+![Alt text](./assets/images/postgresql_db.png)
 
 ### Streamlit/ Plotly/ Folium
 
-![Alt text](./assets/images/streamlit_slide.png)
+![Alt text](./assets/images/streamlit.png)
