@@ -37,9 +37,7 @@
 
 ### Airflow
 
-By leveraging Airflow DAGs, I retrieved data in batches daily to prevent potential API denial resulting from high-frequency requests and to accommodate the inconsistent database updates from the original data source. Once obtained from the source, the data wa
-
-s published to Kafka topic by the producer and then consumed by the consumer in real-time to the database.
+By leveraging Airflow DAGs, I retrieved data in batches daily to prevent potential API denial resulting from high-frequency requests and to accommodate the inconsistent database updates from the original data source. Once obtained from the source, the data was published to Kafka topic by the producer and then consumed by the consumer in real-time to the database.
 
 Two DAGs are implemented:
 
