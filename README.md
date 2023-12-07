@@ -37,18 +37,35 @@
 
 ### Airflow
 
+By leveraging Airflow DAGs, I retrieved data in batches daily to prevent potential API denial resulting from high-frequency requests and to accommodate the inconsistent database updates from the original data source. Once obtained from the source, the data wa
+
+s published to Kafka topic by the producer and then consumed by the consumer in real-time to the database.
+
+Two DAGs are implemented:
+
+* DAG 1 - Fetch data from Socrata API, preprocess data to extract necessary information, and produce data to Confluent Kafka topic
+* DAG 2 - Consume data from Confluent Kafka topic and upsert into PostgreSQL database
+
 ![Alt text](./assets/images/airflow_1.png)
 
 ![Alt text](./assets/images/airflow_2.png)
 
 ### Kafka
 
+I set up a Confluent Kafka topic as a designated channel where producers publish messages of 311 request data, and consumers subscribe to receive it, thereby decoupling producers from consumers. This setup facilitates real-time data processing in parallel. Additionally, I serialized the messages using the Avro serializer and register the schema in the schema registry to enhance message delivery efficiency.
+
+
 ![Alt text](./assets/images/kafka.png)
 
 ### PostgreSQL DB
 
+I configured a PostgreSQL database using the pgAdmin tool to store the data consumed from the Confluent Kafka topic. This stored data was then utilized for downstream analysis, modeling, and visualizations.
+
 ![Alt text](./assets/images/postgresql_db.png)
 
 ### Streamlit/ Plotly/ Folium
+
+I implemented a Streamlit application for real-time data visualization. Users can interact with different types of charts, such as a map, bar plot, pie plot, multi-line plot, and various metrics, by providing their inputs. Additionally, the application calls a model served by FastAPI to perform real-time predictions.
+
 
 ![Alt text](./assets/images/streamlit.png)
